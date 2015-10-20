@@ -1,0 +1,44 @@
+DOCTOR PROBLEM
+
+sem_occupied_chairs = 2 // the number of patients that the clinic can process with its doctors
+
+sem_empty_chairs = 5
+
+mutex[5] mutex_chairs
+
+----------------------------------------
+
+CLINIC (CONSUMER)
+
+	while(true)
+
+		wait(sem_occupied_chairs)
+		
+		wait(mutex_chairs)
+		
+		see_patient()
+		
+		signal(mutex_chairs)
+
+		signal(sem_empty_chairs)
+		
+		dismiss_patient()
+	}
+
+----------------------------------------
+
+PATIENT (PRODUCER)
+	
+	walk_in() //produce
+
+	wait(sem_empty_chairs)
+	
+	wait(mutex_chairs)
+	
+	sit()
+	
+	signal(mutex_chairs)
+	
+	signal(sem_occupied_chairs)
+
+	signal(sem_occupied_chair)
