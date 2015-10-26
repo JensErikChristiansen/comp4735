@@ -1,0 +1,28 @@
+sem car_available = n
+sem done_car = 0
+sem car_filled = 0
+sem pas_ready = 0
+
+Passenger {
+	goToPark();
+	signal(pas_available);
+	wait(car_available);
+
+	enter_car();
+	signal(car_filled);
+	ride();
+	signal(done_car);
+	exit_car();
+}
+
+Car {
+	while (true) {
+		wait(pas_available);
+		wait(car_filled);
+		start_engine();
+		ride();
+		wait(done_car);
+		stop();
+		signal(car_available);
+	}
+}
